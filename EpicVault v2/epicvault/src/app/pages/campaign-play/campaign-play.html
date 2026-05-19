@@ -1,0 +1,431 @@
+<div class="container mt-4 fade-in">
+
+    @if (isLoading) {
+    <div class="text-center py-5">
+        <div class="spinner-border" style="color: var(--secondary);" role="status">
+            <span class="visually-hidden">Cargando la Bóveda...</span>
+        </div>
+    </div>
+    }
+
+    @if (!isLoading && campaign) {
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-3"
+        style="border-bottom: 1px solid var(--card-border);">
+        <div>
+            <h2 class="fw-bold mb-1" style="color: var(--secondary);">{{ campaign.name }}</h2>
+            <span class="badge"
+                style="background-color: var(--input-bg); color: var(--text-muted); border: 1px solid var(--card-border);">
+                👑 DM: {{ campaign.dungeon_master?.username }}
+            </span>
+        </div>
+        <button class="btn btn-outline-secondary mt-3 mt-md-0 fw-bold shadow-sm"
+            [routerLink]="['/campanas', campaign._id]">
+            🚪 Volver al Lobby
+        </button>
+    </div>
+
+    <ul class="nav nav-pills mb-4 gap-2">
+        <li class="nav-item">
+            <button class="nav-link fw-bold px-4 rounded-pill transition-all"
+                [ngClass]="activeTab === 'personajes' ? 'active-tab' : 'inactive-tab'" (click)="setTab('personajes')"
+                [style.background-color]="activeTab === 'personajes' ? 'var(--secondary)' : 'var(--input-bg)'"
+                [style.color]="activeTab === 'personajes' ? '#fff' : 'var(--text-main)'">
+                👥 Personajes
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link fw-bold px-4 rounded-pill transition-all"
+                [ngClass]="activeTab === 'inventario' ? 'active-tab' : 'inactive-tab'" (click)="setTab('inventario')"
+                [style.background-color]="activeTab === 'inventario' ? 'var(--secondary)' : 'var(--input-bg)'"
+                [style.color]="activeTab === 'inventario' ? '#fff' : 'var(--text-main)'">
+                🎒 Inventario y Botín
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link fw-bold px-4 rounded-pill transition-all"
+                [ngClass]="activeTab === 'notas' ? 'active-tab' : 'inactive-tab'" (click)="setTab('notas')"
+                [style.background-color]="activeTab === 'notas' ? 'var(--secondary)' : 'var(--input-bg)'"
+                [style.color]="activeTab === 'notas' ? '#fff' : 'var(--text-main)'">
+                📝 Diario de Sesión
+            </button>
+        </li>
+    </ul>
+
+    @if (activeTab === 'personajes') {
+    @if (!isDM && !myCharacter) {
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4 mx-auto"
+        style="background-color: var(--bg-card); border: 1px dashed var(--secondary) !important; max-width: 600px;">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold" style="color: var(--text-main);">Forja tu Leyenda ⚔️</h3>
+            <p class="label-muted">Aún no tienes un personaje. ¡Crea uno!</p>
+        </div>
+        <form (ngSubmit)="crearPersonaje()">
+            <div class="mb-3">
+                <label class="form-label fw-bold item-name-text">Nombre</label>
+                <input type="text" class="form-control custom-input" [(ngModel)]="newCharacter.name" name="name"
+                    required>
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold item-name-text">Raza</label>
+                    <input type="text" class="form-control custom-input" [(ngModel)]="newCharacter.race" name="race"
+                        required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold item-name-text">Clase</label>
+                    <input type="text" class="form-control custom-input" [(ngModel)]="newCharacter.class" name="class"
+                        required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold">Unirse a la Aventura 🎲</button>
+        </form>
+    </div>
+    } @else {
+    <div class="row g-4">
+        @for (char of characters; track char._id) {
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4"
+                style="background-color: var(--bg-card); border: 1px solid var(--card-border) !important;">
+                <div class="card-body p-4 text-center">
+                    <img [src]="char.avatar_url || 'https://ui-avatars.com/api/?name=' + char.name"
+                        class="rounded-circle mb-3 shadow" width="80" height="80"
+                        style="object-fit: cover; border: 2px solid var(--secondary);">
+                    <h4 class="fw-bold mb-1 item-name-text">{{ char.name }}</h4>
+                    <span class="badge mb-2"
+                        style="background-color: var(--input-bg); color: var(--text-main); border: 1px solid var(--card-border);">{{
+                        char.race }} • {{ char.class }} (Nvl. {{ char.level }})</span>
+                    <div class="small mb-3 label-muted">👤 Jugador: <span class="owner-text">{{
+                            char.user_id?.username }}</span></div>
+                    <hr style="border-color: var(--card-border);">
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mb-3 small">
+                        <span title="Platino" style="color: #E5E4E2; font-weight: bold;">💎 {{ char.public_money.ppt ||
+                            0 }}</span>
+                        <span title="Oro" style="color: #FFD700; font-weight: bold;">🪙 {{ char.public_money.po || 0
+                            }}</span>
+                        <span title="Electro" style="color: #50C878; font-weight: bold;">🔋 {{ char.public_money.pe || 0
+                            }}</span>
+                        <span title="Plata" style="color: #C0C0C0; font-weight: bold;">⚪ {{ char.public_money.pp || 0
+                            }}</span>
+                        <span title="Cobre" style="color: #B87333; font-weight: bold;">🟠 {{ char.public_money.pc || 0
+                            }}</span>
+                    </div>
+                    @if (isDM || myCharacter?._id === char._id) {
+                    <div class="d-flex gap-2 mt-3">
+                        <button class="btn btn-sm btn-outline-primary w-100 fw-bold" (click)="abrirFicha(char)">Ver
+                            Ficha 📝</button>
+                        <button class="btn btn-sm btn-outline-danger fw-bold px-3"
+                            (click)="borrarPersonaje(char._id)">☠️</button>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+    }
+
+    @if (activeTab === 'inventario') {
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4"
+        style="background-color: var(--bg-card); border: 1px solid var(--card-border) !important;">
+        <h4 class="fw-bold mb-4" style="color: var(--text-main);">💰 Tesoro Público del Grupo</h4>
+        <div class="d-flex flex-wrap justify-content-around align-items-center p-3 rounded-3"
+            style="background-color: rgba(0,0,0,0.2);">
+            <div class="text-center p-2">
+                <div style="font-size: 1.8rem;">💎</div>
+                <div class="fw-bold" style="color: #E5E4E2; font-size: 1.2rem;">{{ getPartyTotal('ppt') }}</div>
+                <div class="small label-muted">Platino</div>
+            </div>
+            <div class="text-center p-2">
+                <div style="font-size: 1.8rem;">🪙</div>
+                <div class="fw-bold" style="color: #FFD700; font-size: 1.2rem;">{{ getPartyTotal('po') }}</div>
+                <div class="small label-muted">Oro</div>
+            </div>
+            <div class="text-center p-2">
+                <div style="font-size: 1.8rem;">🔋</div>
+                <div class="fw-bold" style="color: #50C878; font-size: 1.2rem;">{{ getPartyTotal('pe') }}</div>
+                <div class="small label-muted">Electro</div>
+            </div>
+            <div class="text-center p-2">
+                <div style="font-size: 1.8rem;">⚪</div>
+                <div class="fw-bold" style="color: #C0C0C0; font-size: 1.2rem;">{{ getPartyTotal('pp') }}</div>
+                <div class="small label-muted">Plata</div>
+            </div>
+            <div class="text-center p-2">
+                <div style="font-size: 1.8rem;">🟠</div>
+                <div class="fw-bold" style="color: #B87333; font-size: 1.2rem;">{{ getPartyTotal('pc') }}</div>
+                <div class="small label-muted">Cobre</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4"
+        style="background-color: var(--bg-card); border: 1px solid var(--card-border) !important;">
+        <h5 class="fw-bold mb-3" style="color: var(--text-main);">🎒 Botín del Grupo (Items Públicos)</h5>
+        <div class="row g-3">
+            @for (char of characters; track char._id) {
+            @for (item of char.inventory; track item._id) {
+            @if (item.isPublic) {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="p-3 rounded-3 public-item-card"
+                    style="background-color: var(--input-bg); border: 1px solid var(--card-border);">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="fw-bold mb-0 item-name-text">x{{ item.quantity }} {{ item.name }}</h6>
+                            <small class="label-muted">Propietario: <span class="owner-text">{{ char.name
+                                    }}</span></small>
+                        </div>
+                        <span class="badge bg-secondary">Público 🌍</span>
+                    </div>
+                    @if (item.description) {
+                    <p class="small label-muted mt-2 mb-0">{{ item.description }}</p>
+                    }
+                </div>
+            </div>
+            }
+            }
+            }
+
+            @if (!tieneItemsPublicos) {
+            <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-4 p-5 text-center"
+                    style="background-color: rgba(0,0,0,0.1); border: 1px dashed var(--card-border) !important;">
+                    <h5 class="fw-bold mb-3" style="color: var(--text-main);">🎒 Objetos del Grupo</h5>
+                    <p class="label-muted">Aquí aparecerán las armas y herramientas que los jugadores marquen como
+                        públicas desde su ficha.</p>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    }
+
+    @if (activeTab === 'notas') {
+    <div class="row g-4">
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 sticky-top"
+                style="background-color: var(--bg-card); border: 1px solid var(--card-border) !important; top: 20px;">
+                <h5 class="fw-bold mb-3" style="color: var(--text-main);">{{ editingNoteId ? 'Editar Crónica ✏️' :
+                    'Nueva Crónica 🖋️' }}</h5>
+                <form (ngSubmit)="guardarNota()">
+                    <div class="mb-3"><input type="text" class="form-control custom-input" [(ngModel)]="newNote.title"
+                            name="title" required placeholder="Título..."></div>
+                    <div class="mb-3"><textarea class="form-control custom-input" style="min-height: 120px;"
+                            [(ngModel)]="newNote.content" name="content" required placeholder="Detalles..."></textarea>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="newNote.isPublic" name="isPublic"
+                            id="isPublicCheck">
+                        <label class="form-check-label small label-muted" for="isPublicCheck">Visible para todos</label>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100 fw-bold"
+                            [disabled]="!newNote.title || !newNote.content">{{ editingNoteId ? 'Actualizar' : 'Guardar'
+                            }}</button>
+                        @if (editingNoteId) { <button type="button" class="btn btn-outline-secondary fw-bold"
+                            (click)="cancelarEdicion()">Cancelar</button> }
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-8">
+            @if (notes.length === 0) {
+            <div class="text-center py-5 rounded-4"
+                style="background-color: rgba(0,0,0,0.1); border: 1px dashed var(--card-border);">
+                <p class="mb-0 label-muted">No hay crónicas escritas aún.</p>
+            </div>
+            }
+            <div class="d-flex flex-column gap-3">
+                @for (nota of notes; track nota._id) {
+                @if (nota.isPublic || nota.author_id._id === authService.currentUser()?._id || isDM) {
+                <div class="card border-0 shadow-sm rounded-4"
+                    style="background-color: var(--bg-card); border: 1px solid var(--card-border) !important;">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h5 class="fw-bold mb-0 item-name-text">{{ nota.title }}</h5>
+                            @if (!nota.isPublic) { <span class="badge bg-dark border">Privada 🔒</span> }
+                        </div>
+                        <p class="small mb-3 mt-1 label-muted">📅 {{ nota.createdAt | date:'dd/MM/yyyy HH:mm' }} • Por
+                            <span class="owner-text">{{ nota.author_id.username }}</span>
+                        </p>
+                        <p class="item-name-text" style="white-space: pre-wrap;">{{ nota.content }}</p>
+                        @if (nota.author_id._id === authService.currentUser()?._id || isDM) {
+                        <div class="mt-3 pt-3 border-top d-flex justify-content-end gap-2"
+                            style="border-color: var(--card-border) !important;">
+                            <button class="btn btn-sm btn-outline-info fw-bold"
+                                (click)="cargarNotaParaEditar(nota)">Editar</button>
+                            <button class="btn btn-sm btn-outline-danger fw-bold"
+                                (click)="borrarNota(nota._id)">Borrar</button>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+                }
+            </div>
+        </div>
+    </div>
+    }
+
+    @if (isModalOpen && selectedCharacter) {
+    <div class="modal-backdrop fade show"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 1040; backdrop-filter: blur(5px);">
+    </div>
+
+    <div class="modal fade show d-block" tabindex="-1" style="z-index: 1050; overflow-y: auto;" (click)="cerrarFicha()">
+        <div class="modal-dialog modal-lg modal-dialog-centered" (click)="$event.stopPropagation()">
+            <div class="modal-content border-0 shadow-lg rounded-4"
+                style="background-color: var(--bg-card); border: 1px solid var(--secondary) !important;">
+
+                <div class="modal-header border-bottom p-4" style="border-color: var(--card-border) !important;">
+                    <div class="d-flex align-items-center gap-3">
+                        <img [src]="selectedCharacter.avatar_url || 'https://ui-avatars.com/api/?name=' + selectedCharacter.name"
+                            class="rounded-circle shadow-sm" width="60" height="60"
+                            style="object-fit: cover; border: 2px solid var(--secondary);">
+                        <div>
+                            <h3 class="modal-title fw-bold mb-0 item-name-text">{{ selectedCharacter.name }}</h3>
+                            <span class="badge mt-1"
+                                style="background-color: var(--input-bg); color: var(--text-main); border: 1px solid var(--card-border);">
+                                {{ selectedCharacter.race }} • {{ selectedCharacter.class }} (Nvl. {{
+                                selectedCharacter.level }})
+                            </span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" style="filter: invert(1);" (click)="cerrarFicha()"></button>
+                </div>
+
+                <div class="modal-body p-4" style="max-height: 75vh; overflow-y: auto;">
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-5">
+                            <h5 class="fw-bold mb-3 item-name-text">💰 Bolsas de Monedas</h5>
+                            <div class="p-3 rounded-3 mb-4"
+                                style="background-color: var(--input-bg); border: 1px solid var(--card-border);">
+                                <label class="small text-uppercase fw-bold mb-3 d-block label-muted">Cartera
+                                    Pública</label>
+                                <div class="coin-grid mb-3">
+                                    <div class="coin-box"><span>💎</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.public_money.ppt"
+                                            (change)="saveMoneyChanges()"></div>
+                                    <div class="coin-box"><span>🪙</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.public_money.po"
+                                            (change)="saveMoneyChanges()"></div>
+                                    <div class="coin-box"><span>🔋</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.public_money.pe"
+                                            (change)="saveMoneyChanges()"></div>
+                                    <div class="coin-box"><span>⚪</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.public_money.pp"
+                                            (change)="saveMoneyChanges()"></div>
+                                    <div class="coin-box"><span>🟠</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.public_money.pc"
+                                            (change)="saveMoneyChanges()"></div>
+                                </div>
+                                <div class="d-flex gap-2 p-2 rounded-3" style="background: rgba(0,0,0,0.1);">
+                                    <input type="number" class="form-control form-control-sm custom-input text-center"
+                                        style="width: 70px;" [(ngModel)]="expenseAmount" placeholder="0">
+                                    <select class="form-select form-select-sm custom-input" style="width: 80px;"
+                                        [(ngModel)]="expenseType">
+                                        <option value="pc">pc</option>
+                                        <option value="pp">pp</option>
+                                        <option value="pe">pe</option>
+                                        <option value="po">po</option>
+                                        <option value="ppt">ppt</option>
+                                    </select>
+                                    <button class="btn btn-sm btn-danger px-3 fw-bold"
+                                        (click)="restarDinero(true)">Gastar</button>
+                                </div>
+                            </div>
+                            @if (isDM || myCharacter?._id === selectedCharacter._id) {
+                            <div class="p-3 rounded-3"
+                                style="background-color: var(--bg-card); border: 1px dashed var(--secondary);">
+                                <label class="small text-uppercase fw-bold mb-3 d-block owner-text">Cartera Privada
+                                    🔒</label>
+                                <div class="coin-grid mb-3">
+                                    <div class="coin-box"><span>💎</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.private_money.ppt"
+                                            (change)="saveMoneyChanges()"></div>
+                                    <div class="coin-box"><span>🪙</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.private_money.po"
+                                            (change)="saveMoneyChanges()"></div>
+                                    <div class="coin-box"><span>🔋</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.private_money.pe"
+                                            (change)="saveMoneyChanges()"></div>
+                                    <div class="coin-box"><span>⚪</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.private_money.pp"
+                                            (change)="saveMoneyChanges()"></div>
+                                    <div class="coin-box"><span>🟠</span><input type="number"
+                                            [(ngModel)]="selectedCharacter.private_money.pc"
+                                            (change)='saveMoneyChanges()'></div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger w-100 fw-bold"
+                                    (click)="restarDinero(false)">Restar de lo oculto</button>
+                            </div>
+                            }
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <h5 class="fw-bold mb-3 item-name-text">🎒 Inventario y Equipo</h5>
+                            <div class="p-3 rounded-3 mb-3"
+                                style="background-color: var(--input-bg); border: 1px solid var(--card-border);">
+                                <div class="row g-2 mb-3">
+                                    <div class="col-8"><input type="text"
+                                            class="form-control form-control-sm custom-input"
+                                            placeholder="Nombre objeto..." [(ngModel)]="newItem.name"></div>
+                                    <div class="col-4"><input type="number"
+                                            class="form-control form-control-sm custom-input" placeholder="Cant."
+                                            [(ngModel)]="newItem.quantity"></div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="form-check form-switch small">
+                                        <input class="form-check-input" type="checkbox" id="publicItem"
+                                            [(ngModel)]="newItem.isPublic">
+                                        <label class="form-check-label label-muted" for="publicItem">Compartir con
+                                            grupo</label>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary px-4 fw-bold"
+                                        (click)="agregarItem()">Añadir</button>
+                                </div>
+                            </div>
+                            <div class="list-group list-group-flush rounded-3 overflow-hidden border"
+                                style="border-color: var(--card-border) !important;">
+
+                                @for (item of selectedCharacter.inventory; track item._id) {
+                                <div class="list-group-item d-flex justify-content-between align-items-center py-2 px-3"
+                                    style="border-color: var(--card-border) !important; background-color: var(--bg-card) !important;">
+
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="badge rounded-pill bg-secondary" style="min-width: 35px;">
+                                            {{ item.quantity }}
+                                        </span>
+
+                                        <span class="fw-medium" style="color: var(--text-main) !important;">
+                                            {{ item.name }}
+                                        </span>
+
+                                        @if (item.isPublic) {
+                                        <small class="text-success" title="Público">🌍</small>
+                                        }
+                                    </div>
+
+                                    <button class="btn btn-link btn-sm text-danger p-0" (click)="borrarItem(item._id)">
+                                        🗑️
+                                    </button>
+                                </div>
+                                } @empty {
+                                <div class="text-center py-5 label-muted small italic"
+                                    style="color: var(--text-main); opacity: 0.6;">
+                                    Mochila vacía.
+                                </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+    }
+</div>

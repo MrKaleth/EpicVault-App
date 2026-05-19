@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivNotifAvatar"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="centerCrop"
+        android:background="@color/secondary"
+        android:padding="2dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp">
+
+        <TextView
+            android:id="@+id/tvNotifMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has recibido una petición arcana..."
+            android:textColor="@color/text_main_dark"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvNotifDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hace un momento"
+            android:textColor="@color/text_muted_dark"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp" />
+
+        <LinearLayout
+            android:id="@+id/layoutNotifActions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnAcceptNotif"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="Aceptar"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:backgroundTint="#198754"
+                android:textColor="@android:color/white"
+                android:layout_marginEnd="4dp" />
+
+            <Button
+                android:id="@+id/btnRejectNotif"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="Rechazar"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/bg_card_dark"
+                app:strokeColor="#dc3545"
+                app:strokeWidth="1dp"
+                android:textColor="#dc3545"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

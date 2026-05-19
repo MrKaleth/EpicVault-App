@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:background="@color/bg_card_dark"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🦅 Reclutar Aliados"
+        android:textColor="@color/text_main_dark"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etSearchUser"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/input_bg_dark"
+        android:hint="Buscar aventurero por nombre..."
+        android:paddingHorizontal="16dp"
+        android:textColor="@color/text_main_dark"
+        android:textColorHint="@color/text_muted_dark" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvInviteUsers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1" />
+</LinearLayout>

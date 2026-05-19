@@ -1,0 +1,59 @@
+<div class="container d-flex justify-content-center align-items-center fade-in" style="min-height: 80vh;">
+  
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 400px;">
+    
+    <div class="card-header text-center p-4" style="background-color: var(--bg-card); border-bottom: 1px solid var(--card-border);">
+      <img src="/assets/img/logo.jpg" alt="Logo" width="80" class="rounded mb-3 shadow-sm">
+      <h3 class="mb-0" style="color: var(--secondary);">Iniciar Sesión</h3>
+      <small style="color: var(--text-muted);">Accede a la Bóveda</small>
+    </div>
+
+    <div class="card-body p-4" style="background-color: var(--bg-card);">
+      
+      <form (ngSubmit)="login()">
+        
+        <div class="mb-3">
+          <label class="form-label fw-bold" style="color: var(--text-main);">Email</label>
+          <div class="input-group">
+            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">✉️</span>
+            <input type="email" class="form-control" 
+                   [(ngModel)]="creds.email" name="email" 
+                   placeholder="usuario@epicvault.com" required>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label fw-bold" style="color: var(--text-main);">Contraseña</label>
+          <div class="input-group">
+            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">🔑</span>
+            <input type="password" class="form-control" 
+                   [(ngModel)]="creds.password_hash" name="password" 
+                   placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <div *ngIf="errorMsg" class="alert alert-danger d-flex align-items-center p-2 mb-3" role="alert">
+          ⚠️ <span class="ms-2 small">{{ errorMsg }}</span>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary fw-bold py-2 shadow">
+            🔓 ACCEDER AHORA
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+    
+    <div class="card-footer text-center py-3" style="background-color: var(--bg-card); border-top: 1px solid var(--card-border);">
+      <small style="color: var(--text-muted);">
+        ¿No tienes cuenta? 
+        <a routerLink="/registro" class="fw-bold ms-1" style="color: var(--secondary); text-decoration: none;">
+          Regístrate aquí
+        </a>
+      </small>
+    </div>
+
+  </div>
+</div>

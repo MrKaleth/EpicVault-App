@@ -1,0 +1,41 @@
+<div class="container d-flex justify-content-center align-items-center fade-in" style="min-height: 80vh;">
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 450px; background-color: var(--bg-card);">
+    
+    <div class="card-header text-center p-4" style="border-bottom: 1px solid var(--card-border);">
+      <h3 style="color: var(--secondary);">Unirse a EpicVault</h3>
+      <p style="color: var(--text-muted);">Crea tu cuenta para empezar tu aventura</p>
+    </div>
+
+    <div class="card-body p-4">
+      <form (ngSubmit)="registrar()">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Nombre de Usuario</label>
+          <input type="text" class="form-control" [(ngModel)]="userData.username" name="username" placeholder="Ej: DragonSlayer" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Email</label>
+          <input type="email" class="form-control" [(ngModel)]="userData.email" name="email" placeholder="tu@email.com" required>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label fw-bold">Contraseña</label>
+          <input type="password" class="form-control" [(ngModel)]="userData.password_hash" name="password" placeholder="••••••••" required>
+        </div>
+
+        <div *ngIf="mensaje" [class]="esError ? 'alert alert-danger' : 'alert alert-success'" class="p-2 small mb-3">
+          {{ mensaje }}
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary fw-bold">📜 REGISTRARSE</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card-footer text-center py-3">
+      <span style="color: var(--text-muted);">¿Ya tienes cuenta? </span>
+      <a routerLink="/login" style="color: var(--secondary); text-decoration: none;">Inicia sesión</a>
+    </div>
+  </div>
+</div>

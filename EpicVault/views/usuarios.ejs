@@ -1,0 +1,48 @@
+<%- include("templates/cabecera", {tituloweb: 'Gestión de Usuarios' }) %>
+
+    <div class="container">
+        <h1>Listado de Usuarios</h1>
+
+        <a class="btn btn-success btn-block my-4" href="/usuarios/crear">Crear Nuevo Usuario</a>
+
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Roles</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (arrayUsuarios.length> 0) { %>
+                    <% arrayUsuarios.forEach(usuario=> { %>
+                        <tr>
+                            <th scope="row">
+                                <%= usuario.id %>
+                            </th>
+                            <td>
+                                <%= usuario.username %>
+                            </td>
+                            <td>
+                                <%= usuario.email %>
+                            </td>
+                            <td>
+                                <%= usuario.global_roles %>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning btn-sm" href="/usuarios/<%= usuario.id %>">Editar/Eliminar</a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="5" class="text-center">No hay usuarios registrados.</td>
+                                </tr>
+                                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <%- include("templates/cierre") %>

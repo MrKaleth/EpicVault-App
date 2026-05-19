@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_body_dark"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvEditError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1ADC3545"
+            android:textColor="#dc3545"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/bg_card_dark"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📝 Forja tu Identidad"
+                    android:textColor="@color/text_main_dark"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Modifica los datos de tu ficha."
+                    android:textColor="@color/text_muted_dark"
+                    android:layout_marginBottom="24dp" />
+
+                <FrameLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivEditAvatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:padding="4dp"
+                        android:background="@color/secondary"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"/>
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fabChangePhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        app:backgroundTint="@color/primary"
+                        app:tint="@android:color/white"
+                        android:src="@android:drawable/ic_menu_camera"
+                        app:fabSize="mini"
+                        android:layout_margin="4dp"/>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Toca la cámara para subir un nuevo avatar"
+                    android:textColor="@color/text_muted_dark"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="24dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="start">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NOMBRE DE USUARIO"
+                        android:textColor="@color/text_muted_dark"
+                        android:textStyle="bold"
+                        android:textSize="12sp"/>
+                    <EditText
+                        android:id="@+id/etEditUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/input_bg_dark"
+                        android:textColor="@color/text_main_dark"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EMAIL"
+                        android:textColor="@color/text_muted_dark"
+                        android:textStyle="bold"
+                        android:textSize="12sp"/>
+                    <EditText
+                        android:id="@+id/etEditEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textEmailAddress"
+                        android:background="@color/input_bg_dark"
+                        android:textColor="@color/text_main_dark"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="24dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#1AFFFFFF"
+                        android:padding="16dp"
+                        android:gravity="center"
+                        android:layout_marginBottom="24dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CÓDIGO DE GREMIO (INMUTABLE)"
+                            android:textColor="@color/text_muted_dark"
+                            android:textStyle="bold"
+                            android:textSize="12sp"/>
+                        <TextView
+                            android:id="@+id/tvEditFriendCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EV-XXXX-777"
+                            android:textColor="@color/secondary"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/btnCancelEdit"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:text="Cancelar"
+                        android:backgroundTint="@color/input_bg_dark"
+                        android:textColor="@color/text_main_dark"
+                        android:layout_marginEnd="8dp"/>
+
+                    <Button
+                        android:id="@+id/btnSaveEdit"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:text="Guardar"
+                        android:backgroundTint="@color/primary"
+                        android:textColor="@android:color/white"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

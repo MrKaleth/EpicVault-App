@@ -1,0 +1,176 @@
+<div class="container mt-5 fade-in">
+
+  @if (authService.successMessage()) {
+  <div
+    class="alert alert-success shadow-sm d-flex align-items-center justify-content-center animate__animated animate__bounceIn mb-4"
+    style="background-color: var(--secondary); color: white; border: none; border-radius: 12px; padding: 1rem;">
+    <span class="me-3 fs-4">✨</span>
+    <span class="fw-bold">{{ authService.successMessage() }}</span>
+  </div>
+  }
+
+  <div class="row justify-content-center" *ngIf="authService.currentUser() as user">
+    <div class="col-md-9 col-lg-8">
+
+      <div class="card shadow-lg border-0 overflow-hidden"
+        style="background-color: var(--bg-card); border: 1px solid var(--card-border) !important; border-radius: 20px;">
+
+        <div style="height: 10px; background: linear-gradient(90deg, var(--secondary), #6a11cb);"></div>
+
+        <div class="card-body p-4 p-md-5">
+
+          <div class="text-center mb-5">
+            <div class="position-relative d-inline-block">
+              <img [src]="user.avatar_url || 'https://ui-avatars.com/api/?name=' + user.username"
+                class="rounded-circle shadow-lg mb-2" width="150" height="150"
+                style="object-fit: cover; border: 5px solid var(--secondary); padding: 5px; background: var(--bg-main);">
+
+              <span
+                class="position-absolute bottom-0 end-0 badge rounded-pill bg-success p-2 border border-3 border-dark"
+                *ngIf="user.verified" title="Identidad Verificada">
+                ✅
+              </span>
+            </div>
+
+            <h1 class="display-6 fw-bold mt-3" style="color: var(--text-main);">{{ user.username }}</h1>
+
+            <span class="badge rounded-pill px-4 py-2 mb-4"
+              style="background-color: var(--input-bg); color: var(--secondary); border: 1px solid var(--secondary);">
+              ID: {{ user.email }}
+            </span>
+
+            <div class="mx-auto p-3 rounded-4 d-flex justify-content-between align-items-center shadow-sm"
+              style="max-width: 380px; background-color: var(--table-head-bg); border: 1px dashed var(--secondary);">
+              <div class="text-start">
+                <span class="small text-uppercase fw-bold d-block mb-1" style="color: var(--text-muted);">Código de
+                  Gremio</span>
+                <span class="fs-5 fw-bold" style="color: var(--text-main); letter-spacing: 2px;">{{ user.friend_code
+                  }}</span>
+              </div>
+              <button class="btn btn-sm fw-bold transition-all shadow-sm" (click)="copiarCodigo(user.friend_code)"
+                [ngClass]="codigoCopiado() ? 'btn-success text-white' : 'btn-outline-secondary'">
+                {{ codigoCopiado() ? '✔️ Copiado' : '📋 Copiar' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="row g-4">
+
+            <div class="col-md-6">
+              <div class="p-4 rounded-4 h-100 shadow-sm"
+                style="background-color: var(--input-bg); border: 1px solid var(--card-border);">
+                <h5 class="mb-4 d-flex align-items-center gap-2" style="color: var(--secondary);">
+                  🛡️ Nivel de Acceso
+                </h5>
+
+                <div class="mb-4">
+                  <label class="small text-uppercase fw-bold d-block mb-2" style="color: var(--text-muted);">Rangos en
+                    la Bóveda</label>
+                  <div class="d-flex flex-wrap gap-2">
+                    <span *ngFor="let role of user.global_roles || []" class="badge px-3 py-2 text-uppercase shadow-sm"
+                      [ngClass]="{
+                            'bg-danger': role === 'ADMIN',
+                            'bg-warning text-dark': role === 'MODERATOR',
+                            'bg-primary': role === 'USER'
+                          }">
+                      {{ role }}
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="small text-uppercase fw-bold d-block mb-2"
+                    style="color: var(--text-muted);">Estado</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <div [class]="user.verified ? 'bg-success' : 'bg-warning'"
+                      style="width: 12px; height: 12px; border-radius: 50%;"></div>
+                    <span class="fw-bold" style="color: var(--text-main);">
+                      {{ user.verified ? 'Verificado' : 'Acceso Restringido' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="p-4 rounded-4 h-100 shadow-sm"
+                style="background-color: var(--input-bg); border: 1px solid var(--card-border);">
+                <h5 class="mb-4 d-flex align-items-center gap-2" style="color: var(--secondary);">
+                  📅 Bitácora
+                </h5>
+
+                <div class="mb-4">
+                  <label class="small text-uppercase fw-bold d-block mb-1" style="color: var(--text-muted);">Registro
+                    Inicial</label>
+                  <p class="mb-0 fw-medium" style="color: var(--text-main);">
+                    {{ user.created_at | date:'fullDate' }}
+                  </p>
+                </div>
+
+                <div>
+                  <label class="small text-uppercase fw-bold d-block mb-1" style="color: var(--text-muted);">Último
+                    Pulso</label>
+                  <p class="mb-0 fw-medium" style="color: var(--text-main);">
+                    {{ user.last_login ? (user.last_login | date:'medium') : 'Conexión activa' }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div
+                class="p-4 rounded-4 h-100 text-center transition-hover shadow-sm d-flex flex-column justify-content-center"
+                style="background-color: var(--input-bg); border: 1px solid var(--card-border);">
+                <h2 class="display-5 fw-bold mb-0" style="color: var(--primary);">{{ user.friends?.length || 0 }}</h2>
+                <p class="text-uppercase fw-bold mt-2 mb-3" style="color: var(--text-muted); letter-spacing: 1px;">
+                  Aliados de Gremio</p>
+                <a routerLink="/amigos" class="btn btn-sm btn-outline-primary fw-bold w-100">Gestionar Gremio</a>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div
+                class="p-4 rounded-4 h-100 text-center transition-hover shadow-sm d-flex flex-column justify-content-center"
+                style="background-color: var(--input-bg); border: 1px solid var(--card-border);">
+                <h2 class="display-5 fw-bold mb-0" style="color: var(--secondary);">{{ user.campaigns?.length || 0 }}
+                </h2>
+                <p class="text-uppercase fw-bold mt-2 mb-3" style="color: var(--text-muted); letter-spacing: 1px;">
+                  Campañas Activas</p>
+                <a routerLink="/campanas" class="btn btn-sm btn-outline-secondary fw-bold w-100">Ver Crónicas</a>
+              </div>
+            </div>
+
+            <div class="col-12" *ngIf="authService.isAdminOrModerator()">
+              <div
+                class="alert alert-info border-0 d-flex justify-content-between align-items-center p-3 mt-2 shadow-sm"
+                style="background: rgba(13, 202, 240, 0.1); border: 1px solid rgba(13, 202, 240, 0.3) !important; border-radius: 12px;">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="fs-4">🔑</span>
+                  <div>
+                    <strong style="color: var(--text-main);">Panel de Control</strong>
+                    <p class="mb-0 small" style="color: var(--text-muted);">Tienes privilegios para gestionar la Bóveda.
+                    </p>
+                  </div>
+                </div>
+                <a routerLink="/usuarios" class="btn btn-sm btn-info fw-bold">Ir a Gestión</a>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-5">
+            <a routerLink="/perfil/editar"
+              class="btn btn-lg btn-outline-secondary px-5 fw-bold transition-all shadow-sm">
+              📝 EDITAR PERFIL
+            </a>
+            <button (click)="authService.logout()" class="btn btn-lg btn-danger px-5 fw-bold shadow-sm transition-all">
+              SALIR DE LA BÓVEDA
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

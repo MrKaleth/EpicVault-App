@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/bg_card_dark"
+    android:paddingTop="16dp"
+    android:paddingBottom="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="📜 Tus Cuervos"
+            android:textColor="@color/text_main_dark"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnCleanNotifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🧹"
+            android:textSize="24sp"
+            android:padding="8dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/card_border_dark" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingVertical="8dp" />
+
+    <TextView
+        android:id="@+id/tvEmptyNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🕊️\nLos cielos están despejados."
+        android:textAlignment="center"
+        android:textColor="@color/text_muted_dark"
+        android:textSize="16sp"
+        android:padding="32dp"
+        android:visibility="gone" />
+
+</LinearLayout>

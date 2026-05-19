@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_body_dark"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🗡️ Forjar Campaña"
+            android:textColor="@color/secondary"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Inicia una nueva aventura como Dungeon Master."
+            android:textColor="@color/text_muted_dark" />
+
+        <TextView
+            android:id="@+id/tvCreateError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="#1ADC3545"
+            android:padding="12dp"
+            android:text="⚠️ Error"
+            android:textColor="#ff6b6b"
+            android:visibility="gone" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCampaignPreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/bg_card_dark"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+        <Button
+            android:id="@+id/btnSelectCover"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="24dp"
+            android:text="📷 Subir Portada de Campaña"
+            android:textColor="@color/text_main_dark"
+            app:strokeColor="@color/text_muted_dark"
+            app:strokeWidth="1dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NOMBRE DE LA AVENTURA *"
+            android:textColor="@color/text_muted_dark"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCampaignName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/input_bg_dark"
+            android:hint="Ej: Las Minas de Phandelver"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/text_main_dark"
+            android:textColorHint="@color/text_muted_dark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DESCRIPCIÓN O SINOPSIS"
+            android:textColor="@color/text_muted_dark"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCampaignDesc"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="32dp"
+            android:background="@color/input_bg_dark"
+            android:gravity="top|start"
+            android:hint="Cuenta brevemente de qué va esta historia..."
+            android:padding="16dp"
+            android:textColor="@color/text_main_dark"
+            android:textColorHint="@color/text_muted_dark" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancelCreate"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="Cancelar"
+                android:textColor="@color/text_main_dark"
+                app:strokeColor="@color/card_border_dark" />
+
+            <Button
+                android:id="@+id/btnSubmitCampaign"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/primary"
+                android:text="Crear Partida"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

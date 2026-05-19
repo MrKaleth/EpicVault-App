@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="600dp"
+    android:background="@color/bg_card_dark"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/tvSheetName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ficha de Personaje"
+            android:textColor="@color/text_main_dark"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnSaveMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar 💰"
+            android:backgroundTint="@color/secondary"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CARTERA PÚBLICA (Visible para el grupo)"
+                android:textColor="@color/text_muted_dark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+                <EditText android:id="@+id/etPubPPT" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="💎 Platino" android:inputType="number" android:textColor="@color/text_main_dark"/>
+                <EditText android:id="@+id/etPubPO" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="🪙 Oro" android:inputType="number" android:textColor="@color/text_main_dark"/>
+                <EditText android:id="@+id/etPubPE" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="🔋 Elec." android:inputType="number" android:textColor="@color/text_main_dark"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+                <EditText android:id="@+id/etPubPP" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="⚪ Plata" android:inputType="number" android:textColor="@color/text_main_dark"/>
+                <EditText android:id="@+id/etPubPC" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="🟠 Cobre" android:inputType="number" android:textColor="@color/text_main_dark"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/input_bg_dark"
+                android:padding="8dp"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+
+                <EditText
+                    android:id="@+id/etSpendAmount"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Cant."
+                    android:inputType="number"
+                    android:textColor="@color/text_main_dark"/>
+
+                <Spinner
+                    android:id="@+id/spinCoinType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"/>
+
+                <Button
+                    android:id="@+id/btnSpendPublic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:backgroundTint="#dc3545"
+                    android:text="Gastar"
+                    android:textColor="@android:color/white"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CARTERA PRIVADA 🔒 (Solo tú y el DM)"
+                android:textColor="@color/text_muted_dark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+                <EditText android:id="@+id/etPrivPPT" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="💎 Platino" android:inputType="number" android:textColor="@color/text_main_dark"/>
+                <EditText android:id="@+id/etPrivPO" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="🪙 Oro" android:inputType="number" android:textColor="@color/text_main_dark"/>
+                <EditText android:id="@+id/etPrivPE" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="🔋 Elec." android:inputType="number" android:textColor="@color/text_main_dark"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+                <EditText android:id="@+id/etPrivPP" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="⚪ Plata" android:inputType="number" android:textColor="@color/text_main_dark"/>
+                <EditText android:id="@+id/etPrivPC" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="🟠 Cobre" android:inputType="number" android:textColor="@color/text_main_dark"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSpendPrivate"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="Restar de lo oculto"
+                android:textColor="#dc3545" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎒 INVENTARIO"
+                android:textColor="@color/text_main_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <EditText android:id="@+id/etItemName" android:layout_width="0dp" android:layout_weight="2" android:layout_height="wrap_content" android:hint="Objeto..." android:textColor="@color/text_main_dark"/>
+                <EditText android:id="@+id/etItemQty" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Cant." android:inputType="number" android:textColor="@color/text_main_dark"/>
+                <Button android:id="@+id/btnAddItem" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+" android:backgroundTint="@color/primary"/>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cbItemPublic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compartir con el grupo 🌍"
+                android:textColor="@color/text_muted_dark"
+                android:buttonTint="@color/secondary" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPersonalInventory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

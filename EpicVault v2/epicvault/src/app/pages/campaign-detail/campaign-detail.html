@@ -1,0 +1,347 @@
+<div class="container mt-4 fade-in">
+
+    @if (isLoading) {
+    <div class="text-center py-5">
+        <div class="spinner-border" style="color: var(--secondary);" role="status"></div>
+    </div>
+    }
+
+    @if (!isLoading && campaign) {
+
+    @if (feedbackMessage) {
+    <div class="alert alert-info text-center shadow-sm fw-bold mb-4 border-0 rounded-2"
+        style="background-color: rgba(139, 238, 255, 0.1); color: var(--secondary);">
+        {{ feedbackMessage }}
+    </div>
+    }
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3 position-relative"
+        style="z-index: 10;">
+        <div>
+            <h3 class="fw-bold mb-0 text-uppercase" style="color: var(--text-main); letter-spacing: 1px;">{{
+                campaign.name }}</h3>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-sm text-decoration-none fw-bold" style="color: var(--text-muted);"
+                routerLink="/campanas">
+                ❮ Listado
+            </button>
+
+            @if (isDM) {
+            <button class="btn btn-sm fw-bold px-3 shadow-sm"
+                style="background-color: var(--primary); color: white; border: none;"
+                routerLink="/campanas/editar/{{ campaign._id }}">
+                ✏️ Editar
+            </button>
+            <button class="btn btn-sm btn-outline-danger fw-bold px-3 shadow-sm" (click)="openDeleteModal()">
+                🗑️ Eliminar
+            </button>
+            } @else {
+            <button class="btn btn-sm btn-outline-danger fw-bold px-3 shadow-sm" title="Próximamente">
+                🚪 Abandonar
+            </button>
+            }
+        </div>
+    </div>
+
+    <div class="p-4 p-md-5 rounded-4 mb-4 shadow-sm"
+        style="background-color: rgba(0, 0, 0, 0.2); border: 1px solid var(--card-border);">
+
+        <div style="columns: 400px 2; column-gap: 3rem;">
+
+            <div style="break-inside: avoid;">
+                <img [src]="campaign.cover_url || 'https://images.unsplash.com/photo-1614273618169-2f22b7244de1?q=80&w=1000&auto=format&fit=crop'"
+                    class="img-fluid rounded-3 shadow-sm mb-4"
+                    style="width: 100%; border: 1px solid var(--card-border); object-fit: cover; aspect-ratio: 16/9;">
+            </div>
+
+            <div
+                style="color: var(--text-muted); white-space: pre-wrap; font-size: 0.95rem; line-height: 1.7; text-align: justify; margin-bottom: 1rem;">
+                {{ campaign.description }}
+            </div>
+
+        </div>
+
+        <hr style="border-color: var(--card-border); margin: 2.5rem 0; opacity: 0.3;">
+
+        <div class="row align-items-center g-4">
+
+            <div class="col-md-6">
+                <p class="mb-3" style="color: var(--text-main); font-size: 1.1rem;"><strong>Creada por:</strong> {{
+                    campaign.dungeon_master?.username }}</p>
+
+                <button class="btn btn-link text-decoration-none fw-bold p-0"
+                    style="color: var(--primary); font-size: 1.1rem;" (click)="copyJoinCode()">
+                    ➦ Compartir Código: {{ campaign.join_code }}
+                </button>
+            </div>
+
+            <div class="col-md-6">
+                <div class="p-4 rounded-3 text-center shadow-sm w-100"
+                    style="background-color: var(--table-head-bg); border: 1px solid var(--card-border);">
+                    <h6 class="fw-bold mb-1" style="color: var(--text-main);">🏰 Entrar a la Bóveda</h6>
+                    <p class="small mb-3" style="color: var(--text-muted);">Reúnete con tu grupo y continúa la aventura.
+                    </p>
+                    <button class="btn w-100 fw-bold py-2 shadow-sm transition-all"
+                        style="background-color: var(--primary); color: white; border: none;"
+                        routerLink="/campanas/{{ campaign._id }}/jugar">
+                        ▶ Iniciar Partida
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="p-4 rounded-4 mb-4 shadow-sm"
+        style="background-color: rgba(0, 0, 0, 0.2); border: 1px solid var(--card-border);">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold mb-0 text-uppercase" style="color: var(--text-main); letter-spacing: 1px;">Participantes
+            </h5>
+
+            @if (isDM) {
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm fw-bold px-3 shadow-sm"
+                    style="background-color: var(--secondary); color: white; border: none;"
+                    (click)="showManageModal = true">
+                    ⚙️ Administrar
+                </button>
+                <button class="btn btn-sm fw-bold px-3 shadow-sm"
+                    style="background-color: var(--primary); color: white; border: none;" (click)="openInviteModal()">
+                    + Invitar
+                </button>
+            </div>
+            }
+        </div>
+
+        <div class="d-flex flex-wrap gap-5 justify-content-center justify-content-md-start">
+            <div class="text-center">
+                <img [src]="campaign.dungeon_master?.avatar_url || 'https://ui-avatars.com/api/?name=' + campaign.dungeon_master?.username"
+                    class="rounded-circle mb-2 shadow-sm" width="70" height="70"
+                    style="border: 2px solid var(--primary); object-fit: cover;">
+                <div class="fw-bold small" style="color: var(--text-main);">{{ campaign.dungeon_master?.username }}
+                </div>
+                <div class="badge bg-danger mt-1" style="font-size: 0.65rem;">DM</div>
+            </div>
+
+            @for (player of campaign.players; track player._id) {
+            <div class="text-center">
+                <img [src]="player.avatar_url || 'https://ui-avatars.com/api/?name=' + player.username"
+                    class="rounded-circle mb-2 shadow-sm" width="70" height="70"
+                    style="border: 2px solid var(--secondary); object-fit: cover;">
+                <div class="fw-bold small" style="color: var(--text-muted);">{{ player.username }}</div>
+            </div>
+            }
+
+            @if (campaign.players?.length === 0) {
+            <div class="d-flex align-items-center h-100">
+                <span class="text-muted small fst-italic">Sin aventureros...</span>
+            </div>
+            }
+        </div>
+    </div>
+
+    @if (isDM && (campaign.pending_invites.length > 0 || campaign.pending_requests.length > 0)) {
+    <div class="p-4 rounded-4 mt-4 shadow-sm"
+        style="background-color: rgba(0, 0, 0, 0.2); border: 1px dashed var(--card-border);">
+        <h6 class="fw-bold mb-3 text-uppercase" style="color: var(--secondary); letter-spacing: 1px;">⏳ En Espera</h6>
+        <div class="d-flex flex-wrap gap-4">
+            @for (inv of campaign.pending_invites; track inv._id) {
+            <div class="text-center opacity-75">
+                <div class="rounded-circle mb-2 mx-auto d-flex align-items-center justify-content-center"
+                    style="width: 50px; height: 50px; background-color: var(--table-head-bg); border: 1px dashed var(--text-muted);">
+                    <span style="font-size: 1.2rem;">?</span>
+                </div>
+                <div class="fw-bold small" style="color: var(--text-muted);">{{ inv.username }}</div>
+                <div class="badge bg-warning text-dark mt-1" style="font-size: 0.6rem;">Invitado</div>
+            </div>
+            }
+            @for (req of campaign.pending_requests; track req._id) {
+            <div class="text-center">
+                <div class="rounded-circle mb-2 mx-auto d-flex align-items-center justify-content-center shadow-sm"
+                    style="width: 50px; height: 50px; background-color: var(--table-head-bg); border: 1px solid var(--info);">
+                    <span style="font-size: 1.2rem;">🔔</span>
+                </div>
+                <div class="fw-bold small" style="color: var(--text-main);">{{ req.username }}</div>
+                <div class="badge bg-info text-dark mt-1" style="font-size: 0.6rem;">Llamando...</div>
+            </div>
+            }
+        </div>
+    </div>
+    }
+
+    }
+
+    @if (showManageModal) {
+    <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+        style="background-color: rgba(0,0,0,0.8); z-index: 1050; backdrop-filter: blur(5px);">
+
+        <div class="card border-0 shadow-lg rounded-3 overflow-hidden fade-in"
+            style="background-color: var(--bg-card); max-width: 500px; width: 95%;">
+
+            <div class="card-header border-0 d-flex justify-content-between align-items-center p-4"
+                style="background-color: var(--table-head-bg);">
+                <h5 class="mb-0 fw-bold" style="color: var(--text-main);">⚙️ Administrar Miembros</h5>
+                <button type="button" class="btn-close" style="filter: invert(1);"
+                    (click)="showManageModal = false"></button>
+            </div>
+
+            <div class="card-body p-4" style="max-height: 60vh; overflow-y: auto;">
+
+                <h6 class="fw-bold mb-3 text-uppercase" style="color: var(--text-main); font-size: 0.85rem;">🛡️ En la
+                    Party</h6>
+                <ul class="list-group list-group-flush mb-4">
+                    @for (player of campaign.players; track player._id) {
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2"
+                        style="background-color: transparent; border-bottom: 1px solid var(--table-border);">
+                        <div class="d-flex align-items-center gap-3">
+                            <img [src]="player.avatar_url || 'https://ui-avatars.com/api/?name='+player.username"
+                                class="rounded-circle" width="32" height="32" style="object-fit: cover;">
+                            <span class="small fw-bold" style="color: var(--text-main);">{{ player.username }}</span>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger py-0 fw-bold"
+                            (click)="removePlayer(player._id)">Expulsar</button>
+                    </li>
+                    } @empty {
+                    <div class="text-muted small fst-italic py-2">No hay jugadores activos en la party.</div>
+                    }
+                </ul>
+
+                <h6 class="fw-bold mb-3 text-uppercase" style="color: var(--secondary); font-size: 0.85rem;">⏳
+                    Invitaciones Pendientes</h6>
+                <ul class="list-group list-group-flush">
+                    @for (inv of campaign.pending_invites; track inv._id) {
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2"
+                        style="background-color: transparent; border-bottom: 1px solid var(--table-border);">
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="small fw-bold" style="color: var(--text-muted);">{{ inv.username }}</span>
+                        </div>
+                        <button class="btn btn-sm btn-outline-warning py-0 fw-bold"
+                            (click)="cancelInvite(inv._id)">Cancelar</button>
+                    </li>
+                    } @empty {
+                    <div class="text-muted small fst-italic py-2">No hay cuervos en vuelo.</div>
+                    }
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    }
+
+    @if (showInviteModal) {
+    <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+        style="background-color: rgba(0,0,0,0.8); z-index: 1050; backdrop-filter: blur(5px);">
+
+        <div class="card border-0 shadow-lg rounded-3 overflow-hidden fade-in"
+            style="background-color: var(--bg-card); max-width: 800px; width: 95%;">
+
+            <div class="card-header border-0 d-flex justify-content-between align-items-center p-4"
+                style="background-color: var(--table-head-bg);">
+                <h5 class="mb-0 fw-bold" style="color: var(--text-main);">🦅 Reclutar Aliados</h5>
+                <button type="button" class="btn-close" style="filter: invert(1);"
+                    (click)="closeInviteModal()"></button>
+            </div>
+
+            <div class="card-body p-4">
+                <div class="p-3 mb-4 text-center rounded-3"
+                    style="background-color: rgba(139, 238, 255, 0.05); border: 1px dashed var(--secondary);">
+                    <h6 style="color: var(--text-muted); text-transform: uppercase;">Código Mágico de Invitación</h6>
+                    <div class="d-flex justify-content-center align-items-center gap-3 mt-2">
+                        <h2 class="mb-0 fw-bold" style="color: var(--text-main); letter-spacing: 3px;">{{
+                            campaign?.join_code }}</h2>
+                        <button class="btn btn-sm btn-outline-secondary fw-bold shadow-sm" (click)="copyJoinCode()"
+                            title="Copiar al portapapeles">📋 Copiar</button>
+                    </div>
+                    <small style="color: var(--text-muted);">Pásale este código a un jugador para que llame a tu
+                        puerta.</small>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 border-end-md" style="border-color: var(--table-border) !important;">
+                        <h6 class="fw-bold mb-3" style="color: var(--text-main);">Invocar Gremio (Amigos)</h6>
+
+                        @if (myFriends.length === 0) {
+                        <div class="text-muted small">No tienes amigos en tu gremio.</div>
+                        }
+
+                        <ul class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
+                            @for (friend of myFriends; track friend._id) {
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0"
+                                style="background-color: transparent; border-bottom: 1px solid var(--table-border);">
+                                <div class="d-flex align-items-center gap-2">
+                                    <img [src]="friend.avatar_url || 'https://ui-avatars.com/api/?name='+friend.username"
+                                        class="rounded-circle" width="30" height="30" style="object-fit: cover;">
+                                    <span class="small fw-bold" style="color: var(--text-main);">{{ friend.username
+                                        }}</span>
+                                </div>
+                                <button class="btn btn-sm py-0" style="background-color: var(--primary); color: white;"
+                                    (click)="inviteFriend(friend._id)">Añadir</button>
+                            </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h6 class="fw-bold mb-3" style="color: var(--text-main);">Buscar Aventureros</h6>
+                        <input type="text" class="form-control mb-3 border-0 rounded-2"
+                            placeholder="Nombre o DARI#1234..."
+                            style="background-color: var(--input-bg); color: var(--text-main);"
+                            [(ngModel)]="searchQuery" (ngModelChange)="searchUsers()">
+
+                        <ul class="list-group list-group-flush" style="max-height: 200px; overflow-y: auto;">
+                            @for (res of searchResults; track res._id) {
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0"
+                                style="background-color: transparent; border-bottom: 1px solid var(--table-border);">
+                                <span class="small fw-bold" style="color: var(--text-main);">{{ res.username }}</span>
+                                <button class="btn btn-sm btn-outline-secondary py-0"
+                                    (click)="sendInvite(res._id)">Invitar</button>
+                            </li>
+                            }
+                        </ul>
+
+                        @if (searchResults.length === 0 && searchQuery.length >= 2) {
+                        <div class="text-muted small text-center mt-2">Nadie en el horizonte...</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+    @if (showDeleteModal) {
+    <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+        style="background-color: rgba(0,0,0,0.8); z-index: 1050; backdrop-filter: blur(5px);">
+
+        <div class="card border-0 shadow-lg rounded-3 p-4 fade-in"
+            style="background-color: var(--bg-card); max-width: 450px; width: 90%;">
+            <h4 class="text-danger fw-bold mb-3">⚠️ ¿Destruir Campaña?</h4>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+                Esta acción es <strong>irreversible</strong>. Se borrará la partida y todos los datos asociados.
+            </p>
+            <p style="color: var(--text-main);" class="mb-2 small">
+                Escribe <strong class="text-danger">{{ campaign.name }}</strong> para confirmar:
+            </p>
+
+            <input type="text" class="form-control mb-4 border-0 rounded-2"
+                style="background-color: var(--input-bg); color: var(--text-main);" [(ngModel)]="deleteConfirmText"
+                placeholder="Nombre de la campaña...">
+
+            <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-sm btn-outline-secondary px-3" (click)="closeDeleteModal()"
+                    [disabled]="isDeleting">Cancelar</button>
+
+                <button class="btn btn-sm btn-danger fw-bold px-3"
+                    [disabled]="deleteConfirmText !== campaign.name || isDeleting" (click)="confirmDelete()">
+                    @if (isDeleting) {
+                    <span class="spinner-border spinner-border-sm"></span>
+                    } @else {
+                    Sí, Destruir
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+</div>

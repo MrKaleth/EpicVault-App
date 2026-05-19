@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_inicio" android:title="🏠 Inicio" />
+
+    <item android:id="@+id/menu_campanas" android:title="🗡️ Mis Campañas" />
+    <item android:id="@+id/menu_gremio" android:title="👥 El Gremio" />
+
+    <item android:id="@+id/menu_herramientas" android:title="🛠️ Herramientas">
+        <menu>
+            <item android:id="@+id/menu_usuarios" android:title="👥 Gestión de Usuarios" />
+            <item android:id="@+id/menu_auditoria" android:title="🔒 Auditoría (Pronto)" />
+        </menu>
+    </item>
+
+    <item android:id="@+id/menu_perfil" android:title="👤 Mi Perfil" />
+    <item android:id="@+id/menu_salir" android:title="🚪 Salir" />
+</menu>

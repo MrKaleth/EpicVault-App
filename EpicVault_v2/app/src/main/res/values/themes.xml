@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.EpicVault_v2" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSecondary">@color/secondary</item>
+
+
+        <item name="android:windowBackground">@color/bg_body_dark</item>
+        <item name="android:textColorPrimary">@color/text_main_dark</item>
+        <item name="android:textColorSecondary">@color/text_muted_dark</item>
+    </style>
+
+    <style name="Theme.EpicVault_v2" parent="Base.Theme.EpicVault_v2" />
+</resources>

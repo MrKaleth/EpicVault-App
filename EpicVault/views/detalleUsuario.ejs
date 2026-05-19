@@ -1,0 +1,62 @@
+<%- include("templates/cabecera", {tituloweb: 'Detalle Usuario'}) %>
+
+<div class="container">
+    <h1>Editar Usuario</h1>
+    <% if (error) { %>
+        <p><%= mensaje %></p>
+        <a href="/usuarios" class="btn btn-dark">Volver al listado</a>
+    <% } else { %>
+        <form id="formularioEditar" data-id="<%= usuario.id %>">
+            <input type="text" name="username" value="<%= usuario.username %>" class="form-control my-2">
+            <input type="email" name="email" value="<%= usuario.email %>" class="form-control my-2">
+            
+            <button type="submit" class="btn btn-warning btn-block">Actualizar</button>
+        </form>
+
+        <button class="btn btn-danger btn-block mt-2" id="btnEliminar" data-id="<%= usuario.id %>">
+            Eliminar Usuario
+        </button>
+    <% } %>
+</div>
+
+<script>
+    // LÓGICA PARA ELIMINAR
+    const btnEliminar = document.querySelector('#btnEliminar');
+    btnEliminar.addEventListener('click', async () => {
+        const id = btnEliminar.dataset.id;
+        try {
+            const data = await fetch(`/usuarios/${id}`, { method: 'delete' });
+            const res = await data.json();
+            if (res.estado) {
+                window.location.href = '/usuarios';
+            } else {
+                alert(res.mensaje);
+            }
+        } catch (error) { console.log(error) }
+    });
+
+    // LÓGICA PARA EDITAR
+    const formularioEditar = document.querySelector('#formularioEditar');
+    formularioEditar.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = formularioEditar.dataset.id;
+        const formData = new FormData(formularioEditar);
+        const objetoDato = Object.fromEntries(formData.entries());
+
+        try {
+            const data = await fetch(`/usuarios/${id}`, {
+                method: 'put',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(objetoDato)
+            });
+            const res = await data.json();
+            if (res.estado) {
+                window.location.href = '/usuarios';
+            } else {
+                alert(res.mensaje);
+            }
+        } catch (error) { console.log(error) }
+    });
+</script>
+
+<%- include("templates/cierre") %>
