@@ -1,0 +1,60 @@
+# ==========================================
+# 📌 EPICVAULT - GLOBAL .GITIGNORE
+# ==========================================
+
+# 🚫 Archivos del Sistema / Entorno (Raíz y subcarpetas)
+.DS_Store
+Thumbs.db
+.env
+.env.*
+
+# 📦 Dependencias de Node (Ambos proyectos)
+**/node_modules/
+npm-debug.log
+yarn-error.log
+
+# ==========================================
+# 🖥️ BACKEND (EpicVault-Back)
+# ==========================================
+# Si generas archivos subidos por usuarios que no quieras en Git:
+EpicVault-Back/uploads/*
+# Descomenta la línea de abajo si quieres mantener la carpeta vacía en GitHub pero ignorar las fotos:
+# !EpicVault-Back/uploads/.gitkeep
+
+# ==========================================
+# 🎨 FRONTEND (EpicVault-Front)
+# ==========================================
+# Compilados y Caché de Angular
+EpicVault-Front/dist/
+EpicVault-Front/tmp/
+EpicVault-Front/out-tsc/
+EpicVault-Front/bazel-out/
+EpicVault-Front/.angular/cache/
+
+# Otros elementos de Frontend
+EpicVault-Front/.sass-cache/
+EpicVault-Front/connect.lock
+EpicVault-Front/coverage
+EpicVault-Front/libpeerconnection.log
+EpicVault-Front/testem.log
+EpicVault-Front/typings
+EpicVault-Front/__screenshots__/
+
+# ==========================================
+# 🛠️ IDEs y Editores (VS Code, Android Studio, etc.)
+# ==========================================
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.history/*
+
+# Configuración permitida de VS Code para el equipo
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
