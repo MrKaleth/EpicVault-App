@@ -1,4 +1,0 @@
-/* Efecto visual: Cuando pasas el ratón por la caja de verificado */
-.form-switch-container:hover {
-  border-color: var(--secondary) !important; /* Se ilumina en Cian */
-}
